@@ -1,13 +1,65 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './Hero.module.css';
+import listingsData from '../data/listings.json';
+
+const ALL_CATEGORIES = [
+    'Home Services',
+    'Professional Services',
+    'Automotive',
+    'Real Estate',
+    'Health & Wellness',
+    'Local Retail'
+];
 
 export default function Hero({ onSearch }) {
     const [query, setQuery] = useState("");
     const [location, setLocation] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+    const dropdownRef = useRef(null);
+
+    // Get all unique suggestion candidates
+    const suggestionCandidates = [
+        ...ALL_CATEGORIES.map(cat => ({ type: 'Category', value: cat })),
+        ...listingsData.map(biz => ({ type: 'Business', value: biz.name }))
+    ];
+
+    useEffect(() => {
+        if (query.length >= 1) {
+            const filtered = suggestionCandidates.filter(item =>
+                item.value.toLowerCase().includes(query.toLowerCase())
+            ).slice(0, 6); // Limit to top 6 suggestions
+            setSuggestions(filtered);
+            setShowSuggestions(filtered.length > 0);
+        } else {
+            setSuggestions([]);
+            setShowSuggestions(false);
+        }
+    }, [query]);
+
+    // Close dropdown on click outside
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setShowSuggestions(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     const handleSearchClick = () => {
         if (onSearch) {
             onSearch(query, location);
+            setShowSuggestions(false);
+        }
+    };
+
+    const handleSuggestionClick = (suggestion) => {
+        setQuery(suggestion.value);
+        setShowSuggestions(false);
+        if (onSearch) {
+            onSearch(suggestion.value, location);
         }
     };
 
@@ -29,14 +81,29 @@ export default function Hero({ onSearch }) {
                 </p>
 
                 <div className={styles.searchContainer}>
-                    <div className={styles.searchInputGroup}>
+                    <div className={styles.searchInputGroup} ref={dropdownRef}>
                         <input
                             type="text"
                             placeholder="What are you looking for? (e.g. Plumber, HVAC)"
                             className={styles.input}
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
+                            onFocus={() => query.length >= 1 && setShowSuggestions(true)}
                         />
+                        {showSuggestions && (
+                            <div className={styles.dropdown}>
+                                {suggestions.map((s, i) => (
+                                    <div
+                                        key={i}
+                                        className={styles.suggestionItem}
+                                        onClick={() => handleSuggestionClick(s)}
+                                    >
+                                        <div className={styles.suggestionText}>{s.value}</div>
+                                        <div className={styles.suggestionTag}>{s.type}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                     <div className={styles.searchInputGroup}>
                         <input
