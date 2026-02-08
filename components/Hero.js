@@ -1,6 +1,16 @@
+import { useState } from 'react';
 import styles from './Hero.module.css';
 
-export default function Hero() {
+export default function Hero({ onSearch }) {
+    const [query, setQuery] = useState("");
+    const [location, setLocation] = useState("");
+
+    const handleSearchClick = () => {
+        if (onSearch) {
+            onSearch(query, location);
+        }
+    };
+
     return (
         <section className={styles.hero}>
             <div className={`container ${styles.heroContent}`}>
@@ -24,6 +34,8 @@ export default function Hero() {
                             type="text"
                             placeholder="What are you looking for? (e.g. Plumber, HVAC)"
                             className={styles.input}
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
                         />
                     </div>
                     <div className={styles.searchInputGroup}>
@@ -31,9 +43,11 @@ export default function Hero() {
                             type="text"
                             placeholder="City or Parish"
                             className={styles.input}
+                            value={location}
+                            onChange={(e) => setLocation(e.target.value)}
                         />
                     </div>
-                    <button className={styles.searchButton}>
+                    <button className={styles.searchButton} onClick={handleSearchClick}>
                         Search Directory
                     </button>
                 </div>

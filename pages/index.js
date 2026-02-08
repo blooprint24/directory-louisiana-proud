@@ -1,9 +1,23 @@
+import { useState } from "react";
 import Head from "next/head";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Listings from "../components/Listings";
 
 export default function Home() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [locationQuery, setLocationQuery] = useState("");
+
+  const handleSearch = (query, location) => {
+    setSearchQuery(query);
+    setLocationQuery(location);
+
+    // Scroll to listings section
+    const listingsSection = document.getElementById('listings');
+    if (listingsSection) {
+      listingsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   return (
     <>
       <Head>
@@ -16,9 +30,9 @@ export default function Home() {
       <Navbar />
 
       <main>
-        <Hero />
+        <Hero onSearch={handleSearch} />
 
-        <Listings />
+        <Listings searchQuery={searchQuery} locationQuery={locationQuery} />
 
         {/* Category Grid Section */}
         <section className="section-padding" style={{ background: 'var(--surface)' }}>
