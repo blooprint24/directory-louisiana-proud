@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Listings from "../components/Listings";
 import CategoryGrid from "../components/CategoryGrid";
+import FeaturedBusinesses from "../components/FeaturedBusinesses";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -46,6 +47,10 @@ export default function Home() {
         <Hero onSearch={handleSearch} />
 
         <Listings searchQuery={searchQuery} locationQuery={locationQuery} />
+
+        {!searchQuery && !locationQuery && (
+          <FeaturedBusinesses />
+        )}
 
         <CategoryGrid onCategoryClick={handleCategoryClick} />
 

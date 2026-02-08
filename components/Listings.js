@@ -2,6 +2,9 @@ import styles from './Listings.module.css';
 import listingsData from '../data/listings.json';
 
 export default function Listings({ searchQuery = "", locationQuery = "" }) {
+    // Only show results if a search is active
+    if (!searchQuery && !locationQuery) return null;
+
     const filteredListings = listingsData.filter((business) => {
         const matchesSearch =
             business.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -18,12 +21,11 @@ export default function Listings({ searchQuery = "", locationQuery = "" }) {
             <div className="container">
                 <div style={{ textAlign: 'center', marginBottom: 'var(--gap-lg)' }}>
                     <h2 style={{ fontSize: '2.5rem', color: 'var(--primary)', marginBottom: 'var(--gap-sm)' }}>
-                        {searchQuery || locationQuery ? 'Search Results' : 'Featured Automotive Experts'}
+                        Search Results
                     </h2>
                     <p style={{ color: 'var(--muted)', maxWidth: '600px', margin: '0 auto' }}>
-                        {searchQuery || locationQuery
-                            ? `Showing results for "${searchQuery}" in "${locationQuery}"`
-                            : 'Hand-picked and verified automotive dealerships in Baton Rouge that meet the Louisiana Proud trust standard.'}
+                        Showing results for <span style={{ color: 'var(--primary)', fontWeight: '600' }}>"{searchQuery || 'Any Category'}"</span>
+                        {locationQuery && <> in <span style={{ color: 'var(--primary)', fontWeight: '600' }}>"{locationQuery}"</span></>}
                     </p>
                 </div>
 
