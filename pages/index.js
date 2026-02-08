@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import Listings from "../components/Listings";
 
 export default function Home() {
   return (
@@ -16,6 +17,8 @@ export default function Home() {
 
       <main>
         <Hero />
+
+        <Listings />
 
         {/* Category Grid Section */}
         <section className="section-padding" style={{ background: 'var(--surface)' }}>

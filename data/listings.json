@@ -1,0 +1,46 @@
+[
+  {
+    "id": "mos-auto-wholesale",
+    "name": "Mo's Auto Wholesale",
+    "address": "8130 Airline Hwy, Baton Rouge, LA 70815",
+    "rating": 4.5,
+    "reviews": 8,
+    "category": "Automotive",
+    "conversion_rate": "75%",
+    "status": "Verified",
+    "image": "🏛️"
+  },
+  {
+    "id": "ob-motor-world",
+    "name": "O.B. Motor World",
+    "address": "4520 Florida Blvd, Baton Rouge, LA 70806",
+    "rating": 4.8,
+    "reviews": 16,
+    "category": "Automotive",
+    "conversion_rate": "75%",
+    "status": "Verified",
+    "image": "🏛️"
+  },
+  {
+    "id": "ponce-imports",
+    "name": "Ponce Imports",
+    "address": "6060 Florida Blvd, Baton Rouge, LA 70806",
+    "rating": 4.0,
+    "reviews": 70,
+    "category": "Automotive",
+    "conversion_rate": "67%",
+    "status": "Verified",
+    "image": "🏛️"
+  },
+  {
+    "id": "baton-rouge-auto-sales",
+    "name": "Baton Rouge Auto Sales",
+    "address": "14880 Florida Blvd, Baton Rouge, LA 70819",
+    "rating": 4.3,
+    "reviews": 47,
+    "category": "Automotive",
+    "conversion_rate": "56%",
+    "status": "Verified",
+    "image": "🏛️"
+  }
+]
