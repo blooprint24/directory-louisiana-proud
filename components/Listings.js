@@ -38,16 +38,8 @@ export default function Listings() {
                                 </span>
                             </div>
 
-                            <div className={styles.conversionSection}>
-                                <div className={styles.conversionLabel}>Pre-Vetted Conversion Rate:</div>
-                                <div className={styles.conversionValue}>
-                                    <div className={styles.bar} style={{ width: business.conversion_rate }}></div>
-                                    <span>{business.conversion_rate} Better Than Average</span>
-                                </div>
-                            </div>
-
                             <button className={styles.contactButton}>
-                                Get Direct Quote
+                                Visit Website
                             </button>
                         </div>
                     ))}

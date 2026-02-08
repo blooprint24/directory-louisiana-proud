@@ -88,38 +88,6 @@
     color: var(--foreground);
 }
 
-.conversionSection {
-    background: var(--surface);
-    padding: 1rem;
-    border-radius: 12px;
-    margin-bottom: var(--gap-md);
-}
-
-.conversionLabel {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--muted);
-    margin-bottom: 0.5rem;
-}
-
-.conversionValue {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.conversionValue span {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--success);
-}
-
-.bar {
-    height: 6px;
-    background: var(--success);
-    border-radius: 100px;
-    opacity: 0.8;
-}
 
 .contactButton {
     width: 100%;
