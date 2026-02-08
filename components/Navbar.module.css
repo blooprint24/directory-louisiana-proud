@@ -1,0 +1,75 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.navContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 800;
+    display: flex;
+    gap: 2px;
+}
+
+.logoText {
+    color: var(--primary);
+}
+
+.logoSuffix {
+    color: var(--secondary);
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-md);
+}
+
+.link {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--foreground);
+    opacity: 0.8;
+}
+
+.link:hover {
+    opacity: 1;
+    color: var(--primary);
+}
+
+.ctaButton {
+    background: var(--primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.ctaButton:hover {
+    background: var(--primary-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 768px) {
+    .navLinks .link {
+        display: none;
+    }
+}
