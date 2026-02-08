@@ -3,6 +3,7 @@ import Head from "next/head";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import Listings from "../components/Listings";
+import CategoryGrid from "../components/CategoryGrid";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,6 +19,18 @@ export default function Home() {
       listingsSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const handleCategoryClick = (category) => {
+    setSearchQuery(category);
+    setLocationQuery(""); // Clear location for category browsing
+
+    // Scroll to listings
+    const listingsSection = document.getElementById('listings');
+    if (listingsSection) {
+      listingsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <>
       <Head>
@@ -34,55 +47,7 @@ export default function Home() {
 
         <Listings searchQuery={searchQuery} locationQuery={locationQuery} />
 
-        {/* Category Grid Section */}
-        <section className="section-padding" style={{ background: 'var(--surface)' }}>
-          <div className="container">
-            <div style={{ textAlign: 'center', marginBottom: 'var(--gap-lg)' }}>
-              <h2 style={{ fontSize: '2.5rem', color: 'var(--primary)', marginBottom: 'var(--gap-sm)' }}>
-                Browse by Category
-              </h2>
-              <p style={{ color: 'var(--muted)', maxWidth: '600px', margin: '0 auto' }}>
-                Quickly find the help you need from our pre-vetted network of local experts.
-              </p>
-            </div>
-
-            {/* Grid Placeholder - To be implemented as a component */}
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-              gap: 'var(--gap-md)'
-            }}>
-              {['Home Services', 'Professional Services', 'Automotive', 'Real Estate', 'Health & Wellness', 'Local Retail'].map((cat) => (
-                <div key={cat} style={{
-                  background: 'white',
-                  padding: 'var(--gap-md)',
-                  borderRadius: '16px',
-                  boxShadow: 'var(--shadow-sm)',
-                  border: '1px solid var(--border)',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  textAlign: 'center'
-                }}>
-                  <div style={{
-                    width: '60px',
-                    height: '60px',
-                    background: 'var(--surface)',
-                    borderRadius: '12px',
-                    margin: '0 auto var(--gap-sm)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '1.5rem'
-                  }}>
-                    🏛️
-                  </div>
-                  <h3 style={{ fontSize: '1.25rem', marginBottom: '0.25rem' }}>{cat}</h3>
-                  <p style={{ color: 'var(--muted)', fontSize: '0.9rem' }}>150+ Verified Businesses</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+        <CategoryGrid onCategoryClick={handleCategoryClick} />
 
         {/* Trust Section */}
         <section className="section-padding">
