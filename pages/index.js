@@ -10,7 +10,7 @@ import listingsData from '../data/listings.json';
 
 const BusinessMap = dynamic(() => import('../components/BusinessMap'), {
   ssr: false,
-  loading: () => <div style={{ height: '500px', background: 'var(--surface)', borderRadius: '24px', display: 'flex', alignItems: 'center', justifyCenter: 'center' }}>Loading Map...</div>
+  loading: () => <div style={{ height: '500px', background: 'var(--surface)', borderRadius: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading Map...</div>
 });
 
 export default function Home() {
