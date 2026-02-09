@@ -5,6 +5,13 @@ import Hero from "../components/Hero";
 import Listings from "../components/Listings";
 import CategoryGrid from "../components/CategoryGrid";
 import FeaturedBusinesses from "../components/FeaturedBusinesses";
+import dynamic from 'next/dynamic';
+import listingsData from '../data/listings.json';
+
+const BusinessMap = dynamic(() => import('../components/BusinessMap'), {
+  ssr: false,
+  loading: () => <div style={{ height: '500px', background: 'var(--surface)', borderRadius: '24px', display: 'flex', alignItems: 'center', justifyCenter: 'center' }}>Loading Map...</div>
+});
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -47,6 +54,26 @@ export default function Home() {
         <Hero onSearch={handleSearch} />
 
         <Listings searchQuery={searchQuery} locationQuery={locationQuery} />
+
+        <section className="section-padding" style={{ background: 'var(--surface)' }}>
+          <div className="container">
+            <div style={{ textAlign: 'center', marginBottom: 'var(--gap-md)' }}>
+              <h2 style={{ fontSize: '2.5rem', color: 'var(--primary)' }}>
+                Explore <span className="text-gradient">Local Businesses</span>
+              </h2>
+              <p style={{ color: 'var(--muted)' }}>
+                {searchQuery
+                  ? `Showing ${searchQuery} businesses in your area`
+                  : "Discover highly-rated businesses across Louisiana"}
+              </p>
+            </div>
+            <BusinessMap businesses={listingsData.filter(b => {
+              if (!searchQuery) return true;
+              return b.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                b.name.toLowerCase().includes(searchQuery.toLowerCase());
+            })} />
+          </div>
+        </section>
 
         {!searchQuery && !locationQuery && (
           <FeaturedBusinesses />
