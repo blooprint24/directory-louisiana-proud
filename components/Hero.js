@@ -11,12 +11,28 @@ const ALL_CATEGORIES = [
     'Local Retail'
 ];
 
+const LA_LOCATIONS = [
+    'Baton Rouge', 'New Orleans', 'Shreveport', 'Lafayette', 'Lake Charles',
+    'Kenner', 'Bossier City', 'Monroe', 'Alexandria', 'Houma',
+    'New Iberia', 'Slidell', 'Ruston', 'Hammond', 'Sulphur',
+    'Natchitoches', 'Mandeville', 'Gretna', 'Opelousas', 'Zachary',
+    'Thibodaux', 'Covington', 'Baker', 'Crowley', 'Minden',
+    'Bastrop', 'Morgan City', 'Pineville', 'West Monroe', 'Denham Springs',
+    'Bogalusa', 'DeRidder', 'Abbeville', 'St. Gabriel', 'Eunice',
+    'Jennings', 'Scott', 'Rayne', 'Harahan', 'Destrehan',
+    'Franklin', 'Gonzales', 'Donaldsonville', 'Port Allen', 'Walker',
+    'Ponchatoula'
+].map(city => ({ type: 'City/Parish', value: city }));
+
 export default function Hero({ onSearch }) {
     const [query, setQuery] = useState("");
     const [location, setLocation] = useState("");
     const [suggestions, setSuggestions] = useState([]);
+    const [locationSuggestions, setLocationSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [showLocationSuggestions, setShowLocationSuggestions] = useState(false);
     const dropdownRef = useRef(null);
+    const locationDropdownRef = useRef(null);
 
     // Get all unique suggestion candidates
     const suggestionCandidates = [
@@ -37,11 +53,27 @@ export default function Hero({ onSearch }) {
         }
     }, [query]);
 
-    // Close dropdown on click outside
+    useEffect(() => {
+        if (location.length >= 1) {
+            const filtered = LA_LOCATIONS.filter(item =>
+                item.value.toLowerCase().includes(location.toLowerCase())
+            ).slice(0, 6);
+            setLocationSuggestions(filtered);
+            setShowLocationSuggestions(filtered.length > 0);
+        } else {
+            setLocationSuggestions([]);
+            setShowLocationSuggestions(false);
+        }
+    }, [location]);
+
+    // Close dropdowns on click outside
     useEffect(() => {
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setShowSuggestions(false);
+            }
+            if (locationDropdownRef.current && !locationDropdownRef.current.contains(event.target)) {
+                setShowLocationSuggestions(false);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
@@ -52,6 +84,7 @@ export default function Hero({ onSearch }) {
         if (onSearch) {
             onSearch(query, location);
             setShowSuggestions(false);
+            setShowLocationSuggestions(false);
         }
     };
 
@@ -60,6 +93,14 @@ export default function Hero({ onSearch }) {
         setShowSuggestions(false);
         if (onSearch) {
             onSearch(suggestion.value, location);
+        }
+    };
+
+    const handleLocationSuggestionClick = (suggestion) => {
+        setLocation(suggestion.value);
+        setShowLocationSuggestions(false);
+        if (onSearch) {
+            onSearch(query, suggestion.value);
         }
     };
 
@@ -105,14 +146,29 @@ export default function Hero({ onSearch }) {
                             </div>
                         )}
                     </div>
-                    <div className={styles.searchInputGroup}>
+                    <div className={styles.searchInputGroup} ref={locationDropdownRef}>
                         <input
                             type="text"
                             placeholder="City or Parish"
                             className={styles.input}
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
+                            onFocus={() => location.length >= 1 && setShowLocationSuggestions(true)}
                         />
+                        {showLocationSuggestions && (
+                            <div className={styles.dropdown}>
+                                {locationSuggestions.map((s, i) => (
+                                    <div
+                                        key={i}
+                                        className={styles.suggestionItem}
+                                        onClick={() => handleLocationSuggestionClick(s)}
+                                    >
+                                        <div className={styles.suggestionText}>{s.value}</div>
+                                        <div className={styles.suggestionTag}>{s.type}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                     <button className={styles.searchButton} onClick={handleSearchClick}>
                         Search Directory
